@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "email-newsletter"
-version = "0.1.0"
+version = "0.1.1"
 description = "AI Newsletter generator for KYC and AML compliance topics"
 authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.9.7 || >3.9.7,<4.0"

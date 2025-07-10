@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import toml
 
 # Import the render_newsletter module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +22,17 @@ from render_newsletter import (
     generate_output_filename
 )
 
+# Get version from pyproject.toml
+def get_version():
+    try:
+        with open('pyproject.toml', 'r') as f:
+            data = toml.load(f)
+            return data.get('tool', {}).get('poetry', {}).get('version', 'unknown')
+    except:
+        return 'unknown'
+
+APP_VERSION = get_version()
+
 st.set_page_config(
     page_title="Newsletter Renderer",
     page_icon="📰",
@@ -29,6 +41,7 @@ st.set_page_config(
 
 st.title("📰 Newsletter Renderer")
 st.markdown("Generate HTML newsletters from YAML data using Jinja2 templates")
+st.caption(f"Version {APP_VERSION}")
 
 # Add a tab container for the main interface
 main_tabs = st.tabs(["🔧 Render Newsletter", "📋 View Prompt"])
