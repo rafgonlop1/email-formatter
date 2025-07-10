@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "email-newsletter"
-version = "0.1.1"
+version = "0.1.2"
 description = "AI Newsletter generator for KYC and AML compliance topics"
 authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"

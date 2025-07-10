@@ -48,24 +48,26 @@ main_tabs = st.tabs(["🔧 Render Newsletter", "📋 View Prompt"])
 
 with main_tabs[0]:
 
-    # Create two columns for input methods
-    col1, col2 = st.columns(2)
+    # YAML Input Section
+    st.subheader("📥 Provide YAML Content")
+    input_method = st.radio(
+        "Choose input method:",
+        ("Upload File", "Paste Text")
+    )
 
     yaml_content = None
 
-    with col1:
-        st.subheader("📁 Upload YAML File")
+    if input_method == "Upload File":
         uploaded_file = st.file_uploader("Choose a YAML file", type=['yaml', 'yml'])
         
         if uploaded_file is not None:
             yaml_content = uploaded_file.read().decode('utf-8')
             st.success(f"Loaded file: {uploaded_file.name}")
 
-    with col2:
-        st.subheader("📝 Paste YAML Content")
+    else:  # Paste Text
         yaml_text = st.text_area(
-            "Or paste your YAML content here:",
-            height=400,
+            "Paste your YAML content here:",
+            height=300,  # Reduced height for better mobile view
             placeholder="""newsletter:
   date: 2024-01-10
   subject: Weekly Tech Newsletter
@@ -80,21 +82,34 @@ with main_tabs[0]:
         if yaml_text.strip():
             yaml_content = yaml_text
 
-    # Display current YAML content
+    # Add real-time validation after the input methods
+    validation_message = None
+    is_valid = False
+    if yaml_content:
+        try:
+            data = yaml.safe_load(yaml_content)
+            validate_newsletter_data(data)
+            validation_message = st.success("✅ YAML is valid and well-structured!")
+            is_valid = True
+        except yaml.YAMLError as e:
+            validation_message = st.error(f"❌ YAML parsing error: {e}")
+        except ValueError as e:
+            validation_message = st.error(f"❌ Validation error: {e}")
+        except Exception as e:
+            validation_message = st.error(f"❌ Unexpected error: {e}")
+
+    # Display current YAML content (collapsed by default)
     if yaml_content:
         st.divider()
-        with st.expander("📄 Current YAML Content", expanded=False):
+        with st.expander("📄 View Current YAML", expanded=False):
             st.code(yaml_content, language='yaml')
 
-    # Render button
-    if st.button("🚀 Render Newsletter", type="primary", disabled=not yaml_content):
+    # Render button (disabled if not valid or no content)
+    if st.button("🚀 Render Newsletter", type="primary", disabled=not (yaml_content and is_valid)):
         try:
-            # Parse YAML
+            # Parse YAML (already validated, but for safety)
             data = yaml.safe_load(yaml_content)
-        
-            # Validate data
-            validate_newsletter_data(data)
-            
+
             # Set up template directory
             template_dir = 'templates'
             template_name = 'newsletter.html.j2'
