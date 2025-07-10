@@ -12,7 +12,6 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import re
 import webbrowser
-import tempfile
 import logging
 
 

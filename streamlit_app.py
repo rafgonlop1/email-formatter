@@ -175,16 +175,8 @@ with main_tabs[1]:
         
         # Display the prompt in a nice format
         with st.expander("View Full Prompt", expanded=True):
-            st.markdown(prompt_content)
+            st.code(prompt_content, language="markdown")
         
-        # Add copy button
-        st.download_button(
-            label="📋 Copy Prompt to Clipboard",
-            data=prompt_content,
-            file_name="simplekyc_newsletter_prompt.md",
-            mime="text/markdown",
-            help="Download the prompt as a markdown file"
-        )
         
         # Add usage instructions
         with st.expander("📖 How to Use This Prompt"):
