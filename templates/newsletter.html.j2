@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa;">
+    
+    <!-- Main Container -->
+    <table style="width: 100%; max-width: 500px; margin: 0 auto; background-color: #ffffff; border-collapse: collapse; border: 1px solid #dee2e6;">
+        
+        <!-- Header -->
+        <tr>
+            <td style="background-color: #667eea; color: #ffffff; text-align: center; padding: 25px;">
+                <h1 style="margin: 0; font-size: 22px; font-weight: bold;">{{ subject }}</h1>
+                <p style="margin: 8px 0 0 0; font-size: 14px; opacity: 0.9;">{{ newsletter_date }}</p>
+            </td>
+        </tr>
+        
+        <!-- Content -->
+        <tr>
+            <td style="padding: 20px;">
+                
+                {% for item in items %}
+                <!-- Article {{ loop.index }} -->
+                <table style="width: 100%; margin-bottom: 30px; border-collapse: collapse;">
+                    <tr>
+                        <td>
+                            <!-- Title -->
+                            <h2 style="color: #2c3e50; font-size: 18px; font-weight: bold; margin: 0 0 10px 0; line-height: 1.3;">
+                                <a href="{{ item.source }}" style="color: #2c3e50; text-decoration: none;">{{ item.title }}</a>
+                            </h2>
+                            
+                            <!-- Meta Info -->
+                            <div style="background-color: #f8f9fa; padding: 8px 12px; border-left: 3px solid #667eea; margin-bottom: 12px; font-size: 13px; color: #6c757d;">
+                                <strong>Published:</strong> {{ item.published }} | <strong>Type:</strong> {{ item.content_type }}
+                                {% if item.teams %}
+                                <br><strong>Teams:</strong> 
+                                {% for team in item.teams %}{{ team }}{% if not loop.last %}, {% endif %}{% endfor %}
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Summary -->
+                            {% if item.summary %}
+                            <div style="background-color: #f8f9fa; padding: 15px; margin-bottom: 15px; border-left: 4px solid #28a745; font-size: 14px; line-height: 1.5;">
+                                {{ item.summary | clean_citations | nl2br | safe }}
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Why it matters -->
+                            {% if item.why_it_matters %}
+                            <div style="background-color: #fff3cd; padding: 15px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+                                <p style="margin: 0 0 8px 0; font-weight: bold; color: #856404; font-size: 14px;">Why it matters:</p>
+                                {{ item.why_it_matters | clean_citations | format_bullets | safe }}
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Next Step -->
+                            {% if item.next_step %}
+                            <div style="background-color: #d1ecf1; padding: 12px 15px; border-left: 4px solid #17a2b8;">
+                                <p style="margin: 0; font-size: 14px; color: #0c5460;"><strong>Next Step:</strong> {{ item.next_step | clean_citations }}</p>
+                            </div>
+                            {% endif %}
+                            
+                            {% if not loop.last %}
+                            <hr style="border: none; border-top: 2px solid #e9ecef; margin: 25px 0 0 0;">
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                {% endfor %}
+                
+            </td>
+        </tr>
+        
+        <!-- Footer -->
+        <tr>
+            <td style="background-color: #343a40; color: #ffffff; text-align: center; padding: 20px; font-size: 14px;">
+                <p style="margin: 0 0 8px 0;">AI Newsletter • Generated on {{ newsletter_date or newsletter.date or 'Unknown' }}</p>
+                <p style="margin: 0;">Stay ahead of the curve in KYC & AML compliance technology</p>
+            </td>
+        </tr>
+        
+    </table>
+    
+</body>
+</html> 
