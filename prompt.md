@@ -114,6 +114,9 @@ Before returning your response, verify:
 - [ ] No `newsletter:` root wrapper — keys are at root level.
 - [ ] If fallback_topic present, items array is empty.
 
+# === FORMATTING REMINDER ===
+Your response will be fed directly into a YAML parser. If you render it as rich text, formatted prose, or anything other than raw YAML, the pipeline will break. Return plain-text YAML only.
+
 # === ON FAILURE ===
 If you cannot find any suitable content and cannot craft a meaningful fallback, respond with ONLY:
 

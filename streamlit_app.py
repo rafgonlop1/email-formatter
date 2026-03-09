@@ -238,6 +238,11 @@ with main_tabs[1]:
             - It focuses on competitors like Fenergo, ComplyAdvantage, Quantexa, etc.
             - Each newsletter item includes actionable insights and next steps
             - If no relevant news is found, it generates a practical AI tutorial instead
+
+            **⚠️ Troubleshooting YAML format:**
+            - Deep Research sometimes returns the YAML formatted as rich text (like a Word document) instead of raw YAML
+            - If this happens, **disable Deep Research** in the same chat and ask ChatGPT: *"Please rewrite the output as raw YAML"*
+            - ChatGPT will quickly reformat it as proper YAML that you can copy and paste here
             """)
     else:
         st.error(f"❌ Prompt file not found: {prompt_file_path}")
@@ -276,5 +281,13 @@ with st.sidebar:
     ```
     """)
     
+    st.divider()
+    st.markdown("""
+    ### ⚠️ YAML not formatted correctly?
+    If Deep Research returns rich text instead
+    of raw YAML, **disable Deep Research** in the
+    same chat and ask ChatGPT to rewrite it as
+    raw YAML. Then copy and paste it here.
+    """)
     st.divider()
     st.caption("Built with Streamlit and Jinja2")
